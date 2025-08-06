@@ -1,0 +1,45 @@
+@import "tailwindcss";
+@import 'swiper/css';
+@import 'swiper/css/free-mode';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
+@import 'swiper/css/effect-fade';
+@import 'swiper/css/autoplay';
+@import 'swiper/css/effect-coverflow';
+
+@theme {
+    --color-gold: #D29A5A;
+    --color-dark: #130F0C;
+    --color-white: #FFFFFF;
+    --color-black: #000000;
+    --color-overlay-background: rgba(19, 15, 12, 0.8);
+    --font-poppins: 'Poppins', sans-serif;
+    /* --inset-shadow-sm: inset 0px 0px 20px 10px rgba(0, 0, 0, 0.6); */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-poppins);
+    background-color: var(--color-dark)
+}
+
+
+
+@layer utilities {
+    .section-padding {
+        @apply py-30;
+    }
+    .sidebar {
+        @apply fixed top-0 left-0 h-screen z-100 bg-overlay-background  border-r-6 border-gold;
+    }
+
+    .smooth-transition {
+        @apply transition-all duration-300 ease-in-out;
+    }
+
+    .scale-up {
+        @apply hover:scale-110;
+    }
+}

@@ -8,8 +8,8 @@ import clsx from 'clsx';
 import { filterData, featuredData } from '../data/data';
 import LeafElement from "/images/leaf.png"
 import StemElement from "/images/Stem-Element.png"
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Pagination, Navigation, Grid } from 'swiper/modules'
+// import { Swiper, SwiperSlide } from 'swiper/react'
+// import { Pagination, Navigation, Grid } from 'swiper/modules'
 
 interface Filter {
     id: number;
@@ -35,12 +35,20 @@ const ProductPage: React.FC = () => {
     const [filter, setFilter] = useState<Filter | null>(null);
     const [featured, setFeatured] = useState<Feature | null>(null);
     const [searchTerm, setSearchTerm] = useState<string>('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const productPerpage = 8;
 
     // Handle sorting based on filter selection
     useEffect(() => {
         if (filter) {
             let sortedProducts = [...productData];
             const option = filter.option;
+
+            // pagination
+            const indexOfLastProduct = currentPage * productPerpage;
+            const indexOfFirstProduct = indexOfLastProduct - productPerpage;
+            const currentProducts = sortedProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+            const totalPages = Math.ceil(sortedProducts.length / productPerpage);
 
             // Search Product
             if (searchTerm) {
@@ -142,84 +150,21 @@ const ProductPage: React.FC = () => {
     )
 
     const ProductCard = () => (
-        // <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
-        <div className='product-swiper-container'>
-            <Swiper
-                modules={[Pagination, Navigation, Grid]}
-                slidesPerView={1}
-                spaceBetween={24}
-                slidesPerGroup={6}
-                grid={{
-                    rows: 2,
-                    fill: 'row',
-                }}
-                navigation={{
-                    nextEl: '.swiper-button-next-custom',
-                    prevEl: '.swiper-button-prev-custom',
-                }}
-                pagination={{
-                    el: '.swiper-pagination',
-                    clickable: true,
-                    dynamicBullets: true,
-                }}
-                breakpoints={{
-                    320: {
-                        slidesPerView: 1,
-                        slidesPerGroup: 2,
-                        grid: {
-                            rows: 2,
-                        },
-                    },
-                    640: {
-                        slidesPerView: 2,
-                        slidesPerGroup: 4,
-                        grid: {
-                            rows: 2,
-                        },
-                    },
-                    768: {
-                        slidesPerView: 3,
-                        slidesPerGroup: 6,
-                        grid: {
-                            rows: 2,
-                        },
-                    },
-                    1024: {
-                        slidesPerView: 3,
-                        slidesPerGroup: 6,
-                        grid: {
-                            rows: 2,
-                        },
-                    }
-                }}
-                className='product-swiper'
-            >
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
+            {products.map((product: Product) => (
+                <div className='flex flex-col items-center border-2 border-gold bg-white relative h-fit' key={product.id}>
+                    <div className='w-full h-full relative overflow-hidden flex-shrink-0'>
+                        <img src={product.imageURL} alt={product.name} className='h-full w-full object-cover' />
+                        <div className='absolute inset-0 shadow-[inset_0_0_10px_rgba(0,0,0,0.4)] pointer-events-none'></div>
+                    </div>
+                    <div className="p-6 mb-0 mt-auto flex flex-col items-center relative flex-grow">
+                        <h3 className='text-gold text-xl text-center'>{product.name}</h3>
+                        <p className='flex items-center gap-2 text-gold text-xl text-center mb-0 mt-auto'><s className='text-black text-sm'>${product.actualPrice}</s> ${product.salePrice}</p>
+                    </div>
 
-                {products.map((product: Product) => (
-                    <SwiperSlide key={product.id} >
-                        <div className='flex flex-col items-center border-2 border-gold bg-white relative' key={product.id}>
-                            <div className='w-full h-full relative overflow-hidden flex-shrink-0'>
-                                <img src={product.imageURL} alt={product.name} className='h-full w-full object-cover' />
-                                <div className='absolute inset-0 shadow-[inset_0_0_10px_rgba(0,0,0,0.4)] pointer-events-none'></div>
-                            </div>
-                            <div className="p-6 mb-0 mt-auto flex flex-col items-center relative flex-grow">
-                                <h3 className='text-gold text-xl text-center'>{product.name}</h3>
-                                <p className='flex items-center gap-2 text-gold text-xl text-center mb-0 mt-auto'><s className='text-black text-sm'>${product.actualPrice}</s> ${product.salePrice}</p>
-                            </div>
+                </div>
+            ))}
 
-                        </div>
-                    </SwiperSlide>
-                ))}
-            </Swiper>
-
-            <div className="flex flex-col md:flex-row justify-center items-center mt-6 gap-4">
-                <button className="swiper-button-prev-custom bg-gold hover:bg-white hover:text-gold text-black px-4 py-2 rounded-md transition-colors duration-300 font-medium">
-                    Previous
-                </button>
-                <button className="swiper-button-next-custom bg-gold hover:bg-white hover:text-gold text-black px-4 py-2 rounded-md transition-colors duration-300 font-medium">
-                    Next
-                </button>
-            </div>
         </div>
     )
 

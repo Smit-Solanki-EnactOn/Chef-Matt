@@ -13,6 +13,7 @@
     --color-dark: #130F0C;
     --color-white: #FFFFFF;
     --color-black: #000000;
+    --color-overlay: rgba(210, 154, 90, 0.8);
     --color-overlay-background: rgba(19, 15, 12, 0.8);
     --font-poppins: 'Poppins', sans-serif;
     /* --inset-shadow-sm: inset 0px 0px 20px 10px rgba(0, 0, 0, 0.6); */
@@ -26,7 +27,17 @@ body {
     background-color: var(--color-dark)
 }
 
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
 
 @layer utilities {
     .section-padding {
@@ -42,32 +53,7 @@ body {
     }
 
     .scale-up {
-        @apply hover:scale-110;
+        @apply hover:scale-125;
     }
-
-    .product-swiper-container {
-        @apply relative;
-    }
-
-    .product-swiper .swiper-pagination {
-        @apply static mt-8;
-    }
-
-    .custom-bullet {
-        @apply bg-white/50 opacity-100 w-3 h-3 mx-[6px] transition-all duration-300 ease-in-out;
-    }
-
-    .custom-bullet-active {
-        @apply bg-[#d4af37] scale-110;
-    }
-
-    .custom-bullet:hover {
-        @apply bg-[rgba(212, 175, 55, 0.7)];
-    }
-
-    .swiper-button-disabled {
-        @apply opacity-50 cursor-not-allowed;
-    }
-
 
 }

@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react'; // Removed useReducer
 import { productData } from '../data/data';
-import { Input, Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react';
+import { Button, Input, Listbox, ListboxButton, ListboxOption, ListboxOptions, Dialog, DialogPanel, DialogTitle, Description, DialogBackdrop } from '@headlessui/react';
 import { FiGrid } from "react-icons/fi";
 import { BiSolidDownArrow } from 'react-icons/bi';
 import { TbLayoutList } from "react-icons/tb";
+import { IoEyeOutline } from "react-icons/io5";
+import { FaPlus, FaMinus } from "react-icons/fa6";
+import { CiHeart } from "react-icons/ci";
+import { HiOutlineShoppingBag } from "react-icons/hi2";
 import clsx from 'clsx';
 import { filterData, featuredData } from '../data/data';
 import LeafElement from "/images/leaf.png"
 import StemElement from "/images/Stem-Element.png"
-// import { Swiper, SwiperSlide } from 'swiper/react'
-// import { Pagination, Navigation, Grid } from 'swiper/modules'
+
+import { FaFacebook, FaTwitter , FaInstagram, FaYoutube, FaPinterest } from "react-icons/fa";
 
 interface Filter {
     id: number;
@@ -24,6 +28,7 @@ interface Feature {
 interface Product {
     id: number;
     name: string;
+    description: string;
     salePrice: string;
     actualPrice: string;
     imageURL: string;
@@ -35,20 +40,26 @@ const ProductPage: React.FC = () => {
     const [filter, setFilter] = useState<Filter | null>(null);
     const [featured, setFeatured] = useState<Feature | null>(null);
     const [searchTerm, setSearchTerm] = useState<string>('');
-    const [currentPage, setCurrentPage] = useState(1);
-    const productPerpage = 8;
+    const [quantity, setQuantity] = useState<number>(1);
+    // const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [activeProduct, setActiveProduct] = useState<Product | null>(null);
+
+    // Model Function
+    function openModal(product: Product) {
+        setQuantity(1)
+        setActiveProduct(product)
+    }
+
+    function closeModal() {
+        setActiveProduct(null)
+    }
+
 
     // Handle sorting based on filter selection
     useEffect(() => {
         if (filter) {
             let sortedProducts = [...productData];
             const option = filter.option;
-
-            // pagination
-            const indexOfLastProduct = currentPage * productPerpage;
-            const indexOfFirstProduct = indexOfLastProduct - productPerpage;
-            const currentProducts = sortedProducts.slice(indexOfFirstProduct, indexOfLastProduct);
-            const totalPages = Math.ceil(sortedProducts.length / productPerpage);
 
             // Search Product
             if (searchTerm) {
@@ -149,21 +160,84 @@ const ProductPage: React.FC = () => {
 
     )
 
+
+
     const ProductCard = () => (
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
             {products.map((product: Product) => (
                 <div className='flex flex-col items-center border-2 border-gold bg-white relative h-fit' key={product.id}>
-                    <div className='w-full h-full relative overflow-hidden flex-shrink-0'>
-                        <img src={product.imageURL} alt={product.name} className='h-full w-full object-cover' />
-                        <div className='absolute inset-0 shadow-[inset_0_0_10px_rgba(0,0,0,0.4)] pointer-events-none'></div>
+                    <div className='relative h-full w-full'>
+                        {/* Product Image */}
+                        <div className='w-full h-full overflow-hidden '>
+                            <img src={product.imageURL} alt={product.name} className='h-full w-full object-cover' />
+                            <div className='absolute inset-0 shadow-[inset_0_0_10px_rgba(0,0,0,0.4)] pointer-events-none'></div>
+                        </div>
+
+                        {/* Hidden/Hover content */}
+                        <div className='absolute inset-0 flex flex-col items-center justify-center bg-overlay gap-2 opacity-0 hover:opacity-100 transition duration-300 ease-in-out z-15'>
+                            <Button className={'bg-white rounded-full px-8 py-2 cursor-pointer'}><HiOutlineShoppingBag className='h-7 w-7 text-gold' /></Button>
+                            <Button type='button' onClick={() => openModal(product)} className={'bg-dark rounded-full px-8 py-2 cursor-pointer'}><IoEyeOutline className='h-7 w-7 text-gold ' /></Button>
+                            <CiHeart className='absolute top-3 left-3 h-8 w-8 text-white' />
+                        </div>
                     </div>
+                    {/* Product Info */}
                     <div className="p-6 mb-0 mt-auto flex flex-col items-center relative flex-grow">
                         <h3 className='text-gold text-xl text-center'>{product.name}</h3>
                         <p className='flex items-center gap-2 text-gold text-xl text-center mb-0 mt-auto'><s className='text-black text-sm'>${product.actualPrice}</s> ${product.salePrice}</p>
                     </div>
 
+
+
+
                 </div>
             ))}
+
+            {/* Dialog/Modal Box */}
+            {activeProduct &&
+                <Dialog open={!!activeProduct} onClose={closeModal} as="div" transition={true} className="relative z-50">
+                    <DialogBackdrop className="fixed inset-0 bg-black/20" />
+                    <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
+                        <DialogPanel className="max-w-5xl space-y-4 border bg-dark/90 p-12 flex gap-10">
+                            <div className='flex flex-col  gap-4'>
+                                <div className='aspect-square h-40 sm:h-48 md:h-56 lg:h-96 rounded-full overflow-hidden border-2 sm:border-3 md:border-4 border-gold'>
+                                    <img src={activeProduct.imageURL} alt={activeProduct.name} className='h-full w-full object-cover' />
+                                </div>
+                                <div>
+                                    <p className='text-white text-lg sm:text-xl text-start'>Share this products</p>
+                                    <div className='flex justify-center gap-3 sm:gap-4 mt-4'>
+                                        <a href='https://www.facebook.com' target='_blank' rel='noreferrer' className='text-white text-lg sm:text-xl md:text-2xl cursor-pointer hover:text-gold smooth-transition scale-up'><FaFacebook /></a>
+                                        <a href='https://www.twitter.com' target='_blank' rel='noreferrer' className='text-white text-lg sm:text-xl md:text-2xl cursor-pointer hover:text-gold smooth-transition scale-up'><FaTwitter /></a>
+                                        <a href='https://www.instagram.com' target='_blank' rel='noreferrer' className='text-white text-lg sm:text-xl md:text-2xl cursor-pointer hover:text-gold smooth-transition scale-up'><FaInstagram /></a>
+                                        <a href='https://www.youtube.com' target='_blank' rel='noreferrer' className='text-white text-lg sm:text-xl md:text-2xl cursor-pointer hover:text-gold smooth-transition scale-up'><FaYoutube /></a>
+                                        <a href='https://www.pinterest.com' target='_blank' rel='noreferrer' className='text-white text-lg sm:text-xl md:text-2xl cursor-pointer hover:text-gold smooth-transition scale-up'><FaPinterest /></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='flex flex-col justify-center gap-7'>
+                                <DialogTitle className="text-white text-4xl border-b-4 border-gold">{activeProduct.name}</DialogTitle>
+                                <p className="text-gold text-2xl flex items-center">${activeProduct.salePrice} &nbsp; <s className='text-white text-lg'>${activeProduct.actualPrice}</s></p>
+                                <Description className="text-white">{activeProduct.description}</Description>
+                                {/* Quantity Range */}
+                                <div className='flex gap-4'>
+                                    <label className='text-white'>Quantity</label>
+                                    <div className="inline-flex gap-4 px-4 py-1 justify-center border-2 border-gold rounded-2xl bg-white">
+                                        <button className='text-black hover:scale-125 smooth-transition cursor-pointer ' onClick={() => setQuantity(quantity - 1)}><FaMinus /></button>
+                                        <input className='w-16 text-center text-black' type="number" name='quantity' value={quantity} min={1} />
+                                        <button className='text-black hover:scale-125 smooth-transition cursor-pointer' onClick={() => setQuantity(quantity + 1)}><FaPlus /></button>
+                                    </div>
+                                </div>
+                                <div className="flex gap-4 ">
+                                    <button className=' px-14 py-2 text-center font-semibold border-2 border-transparent bg-gold text-white hover:bg-white hover:text-gold hover:border-gold text-sm sm:text-base md:text-lg whitespace-nowrap'>Add to cart</button>
+                                    <button className=' px-14 py-2 text-center font-semibold border-2 border-transparent bg-gold text-white hover:bg-white hover:text-gold hover:border-gold text-sm sm:text-base md:text-lg whitespace-nowrap'>Add to wishlist</button>
+                                </div>
+                            </div>
+
+                        </DialogPanel>
+                    </div>
+                </Dialog>
+            }
+
+
 
         </div>
     )
@@ -171,11 +245,11 @@ const ProductPage: React.FC = () => {
     return (
         <section>
             <div className="container mx-auto px-4 overflow-hidden">
-                <div className="flex flex-col py-4">
+                <div className="flex flex-col space-y-10 py-4">
                     {/* Product Heading */}
-                    <div className='text-2xl text-white relative h-60 sm:h-80 md:h-96'>
-                        <div className='absolute inset-0 h-full w-full z-0'>
-                            <img src='/images/Product-Header.png' className='h-auto w-full object-cover' />
+                    <div className='text-2xl text-white relative h-60 sm:h-80 md:h-96 '>
+                        <div className='absolute inset-0 h-auto w-full z-0'>
+                            <img src='/images/Product-Header.png' className='h-full w-full object-cover' />
                         </div>
                         <div className='relative z-10 flex flex-col h-full justify-center'>
                             <h2 className='text-4xl md:text-5xl lg:text-6xl font-bold text-gold tracking-widest mb-4 text-center'>
@@ -186,7 +260,7 @@ const ProductPage: React.FC = () => {
                     </div>
 
                     {/* Product List */}
-                    <div className='flex flex-col gap-4 py-6 max-w-7xl mx-auto mt-10 relative'>
+                    <div className='flex flex-col gap-4 py-6 max-w-7xl mx-auto relative'>
 
                         {/* Search / Filter */}
                         <SearchBar />

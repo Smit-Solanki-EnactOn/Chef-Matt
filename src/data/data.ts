@@ -4,84 +4,96 @@ export const productData = [
         name: "CINNAMON HONEY",
         salePrice: "9.00",
         actualPrice: "12.00",
-        imageURL: "/images/Cinnamon-Honey.jpg"
+        imageURL: "/images/Cinnamon-Honey.png",
+        description: "A sweet blend of natural honey infused with warm cinnamon spice."
     },
     {
         id: 2,
         name: "COCONUT OIL",
         salePrice: "15.00",
         actualPrice: "20.00",
-        imageURL: "/images/Coconut-Oil.jpg"
+        imageURL: "/images/Coconut-Oil.png",
+        description: "Pure coconut oil perfect for cooking, baking, or skin care."
     },
     {
         id: 3,
         name: "MANGO HONEY",
         salePrice: "6.00",
         actualPrice: "9.00",
-        imageURL: "/images/Honey-Mango.jpg"
+        imageURL: "/images/Honey-Mango.png",
+        description: "Tropical mango meets golden honey in this fruity delight."
     },
     {
         id: 4,
         name: "HONEY HABANERO",
         salePrice: "9.00",
         actualPrice: "12.00",
-        imageURL: "/images/Honey-Habanero.jpg"
+        imageURL: "/images/Honey-Habanero.png",
+        description: "A bold mix of sweet honey and fiery habanero pepper."
     },
     {
         id: 5,
         name: "EXTRA VIRGIN COCONUT OIL",
         salePrice: "19.99",
         actualPrice: "24.00",
-        imageURL: "/images/Virgin-Coconut-Oil.png"
+        imageURL: "/images/Virgin-Coconut-Oil.png",
+        description: "Cold-pressed extra virgin coconut oil for premium quality and flavor."
     },
     {
         id: 6,
         name: "DRY RED COOKING WINE",
         salePrice: "7.99",
         actualPrice: "9.99",
-        imageURL: "/images/Red-Cooking-Wine.png"
+        imageURL: "/images/Red-Cooking-Wine.png",
+        description: "Rich and robust dry red wine crafted for flavorful cooking."
     },
     {
         id: 7,
         name: "INFUSED EXTRA VIRGIN OLIVE OIL",
         salePrice: "29.99",
         actualPrice: "35.99",
-        imageURL: "/images/Virgin-Coconut-Oil.png"
+        imageURL: "/images/Virgin-Coconut-Oil.png",
+        description: "Aromatic olive oil infused with natural herbs for gourmet dishes."
     },
     {
         id: 8,
         name: "KIWI GOURMET DRIED FRUIT",
         salePrice: "10.50",
         actualPrice: "15.00",
-        imageURL: "/images/Kiwi-Dried-Fruit.png"
+        imageURL: "/images/Kiwi-Dried-Fruit.png",
+        description: "Deliciously chewy and tangy dried kiwi slices for a healthy snack."
     },
     {
         id: 9,
         name: "EXTRA VIRGIN OLIVE OIL",
         salePrice: "19.99",
         actualPrice: "24.99",
-        imageURL: "/images/Extra-Virgin-Olive-Oil.png"
+        imageURL: "/images/Extra-Virgin-Olive-Oil.png",
+        description: "Premium cold-pressed extra virgin olive oil with rich flavor."
     },
     {
         id: 10,
         name: "JALAPENO & SERRANO OLIVE OIL",
         salePrice: "19.99",
         actualPrice: "24.99",
-        imageURL: "/images/Jalapeno-Olive-Oil.png"
+        imageURL: "/images/Jalapeno-Olive-Oil.png",
+        description: "Spicy olive oil infused with jalapeño and serrano peppers for a kick."
     },
     {
         id: 11,
         name: "Carribean Jerk Olive OIL",
         salePrice: "19.99",
         actualPrice: "24.99",
-        imageURL: "/images/Carribean-Olive-Oil.png"
+        imageURL: "/images/Carribean-Olive-Oil.png",
+        description: "Bold Caribbean jerk spices blended into smooth olive oil."
     },
     {
         id: 12,
         name: "BLACK TRUFFLE OLIVE OIL",
         salePrice: "9.00",
         actualPrice: "12.00",
-        imageURL: "/images/Black-Olive-Oil.png"
+        imageURL: "/images/Black-Olive-Oil.png",
+        description: "Luxurious olive oil enhanced with the rich aroma of black truffle."
     }
 ]
 

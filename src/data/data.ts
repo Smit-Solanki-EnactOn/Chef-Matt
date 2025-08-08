@@ -94,6 +94,70 @@ export const productData = [
         actualPrice: "12.00",
         imageURL: "/images/Black-Olive-Oil.png",
         description: "Luxurious olive oil enhanced with the rich aroma of black truffle."
+    },
+    {
+        id: 13,
+        name: "LAVENDER HONEY",
+        salePrice: "11.99",
+        actualPrice: "15.99",
+        imageURL: "/images/Honey-Habanero.png",
+        description: "Delicate floral honey with soothing lavender notes for a calming treat."
+    },
+    {
+        id: 14,
+        name: "WHITE COOKING WINE",
+        salePrice: "8.49",
+        actualPrice: "10.99",
+        imageURL: "/images/Red-Cooking-Wine.png",
+        description: "Crisp and clean white wine perfect for seafood and light dishes."
+    },
+    {
+        id: 15,
+        name: "AVOCADO OIL",
+        salePrice: "22.99",
+        actualPrice: "28.99",
+        imageURL: "/images/Virgin-Coconut-Oil.png",
+        description: "Heart-healthy avocado oil with high smoke point for versatile cooking."
+    },
+    {
+        id: 16,
+        name: "APRICOT DRIED FRUIT",
+        salePrice: "8.99",
+        actualPrice: "12.99",
+        imageURL: "/images/Kiwi-Dried-Fruit.png",
+        description: "Sun-dried apricots bursting with natural sweetness and nutrients."
+    },
+    {
+        id: 17,
+        name: "WILDFLOWER HONEY",
+        salePrice: "7.50",
+        actualPrice: "10.50",
+        imageURL: "/images/Cinnamon-Honey.png",
+        description: "Raw wildflower honey with complex floral notes from diverse blooms."
+    },
+    {
+        id: 18,
+        name: "ROSEMARY GARLIC OLIVE OIL",
+        salePrice: "24.99",
+        actualPrice: "29.99",
+        imageURL: "/images/Black-Olive-Oil.png",
+        description: "Aromatic olive oil infused with fresh rosemary and roasted garlic."
+    },
+    {
+        id: 19,
+        name: "SWEET DESSERT WINE",
+        salePrice: "12.99",
+        actualPrice: "16.99",
+        imageURL: "/images/Red-Cooking-Wine.png",
+        description: "Rich and luscious dessert wine perfect for special occasions."
+    },
+    {
+        id: 20,
+        name: "BANANA DRIED FRUIT CHIPS",
+        salePrice: "9.99",
+        actualPrice: "13.99",
+        imageURL: "/images/Kiwi-Dried-Fruit.png",
+        description: "Crispy banana chips naturally dried for a wholesome snack experience."
     }
 ]
 

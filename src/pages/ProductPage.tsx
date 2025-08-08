@@ -12,8 +12,10 @@ import clsx from 'clsx';
 import { filterData, featuredData } from '../data/data';
 import LeafElement from "/images/leaf.png"
 import StemElement from "/images/Stem-Element.png"
+import Pagination from '@mui/material/Pagination';
 
 import { FaFacebook, FaTwitter, FaInstagram, FaYoutube, FaPinterest } from "react-icons/fa";
+import DialogBox from '../components/core/DialogBox';
 
 interface Filter {
     id: number;
@@ -43,6 +45,28 @@ const ProductPage: React.FC = () => {
     const [quantity, setQuantity] = useState<number>(1);
     // const [isOpen, setIsOpen] = useState<boolean>(false);
     const [activeProduct, setActiveProduct] = useState<Product | null>(null);
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [postsPerPage, setPostsPerPage] = useState<number>(12);
+    // state for showing product in grid or list
+    const [isListView, setIsListView] = useState<boolean>(false);
+
+    // Pagination logic
+    // lastPostIndex (12) =     2     *     6  
+    const lastPostIndex = currentPage * postsPerPage;
+
+    // firstPostIndex (6) =     12       -     6
+    const firstPostIndex = lastPostIndex - postsPerPage
+
+    const currentPosts = products.slice(firstPostIndex, lastPostIndex);
+
+    // Calculating total pages
+    // .ceil() is used to round up the total number of pages that is 12 products per page
+    const totalPages = Math.ceil(products.length / postsPerPage);
+
+    const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
+        setCurrentPage(page);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
     // Model Function
     function openModal(product: Product) {
@@ -53,6 +77,175 @@ const ProductPage: React.FC = () => {
     function closeModal() {
         setActiveProduct(null)
     }
+
+    // GRID Structure
+    const GridStructure = () => (
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
+            {currentPosts.map((product: Product) => (
+                <div className='flex flex-col items-center border-2 border-gold bg-white relative h-fit' key={product.id}>
+                    <div className='relative h-full w-full'>
+                        {/* Product Image */}
+                        <div className='w-full h-full overflow-hidden '>
+                            <img src={product.imageURL} alt={product.name} className='h-full w-full object-cover' />
+                            <div className='absolute inset-0 shadow-[inset_0_0_10px_rgba(0,0,0,0.4)] pointer-events-none'></div>
+                        </div>
+
+                        {/* Hidden/Hover content */}
+                        <div className='absolute inset-0 flex flex-col items-center justify-center bg-overlay gap-2 opacity-0 hover:opacity-100 transition duration-300 ease-in-out z-15'>
+                            <Button className={'bg-white rounded-full px-8 py-2 cursor-pointer'}><HiOutlineShoppingBag className='h-7 w-7 text-gold hover:scale-110 smooth-transition' /></Button>
+                            <Button type='button' onClick={() => openModal(product)} className={'bg-dark rounded-full px-8 py-2 cursor-pointer'}><IoEyeOutline className='h-7 w-7 text-gold hover:scale-110 smooth-transition' /></Button>
+
+                            <CiHeart className='absolute top-3 left-3 h-8 w-8 text-white hover:scale-110 smooth-transition cursor-pointer' />
+                        </div>
+                    </div>
+                    {/* Product Info */}
+                    <div className="p-6 mb-0 mt-auto flex flex-col items-center relative flex-grow">
+                        <h3 className='text-gold text-xl text-center'>{product.name}</h3>
+                        <p className='flex items-center gap-2 text-gold text-xl text-center mb-0 mt-auto'><s className='text-black text-sm'>${product.actualPrice}</s> ${product.salePrice}</p>
+                    </div>
+                </div>
+            ))}
+
+
+            {/* Dialog/Modal Box */}
+            {activeProduct &&
+                <DialogBox activeProduct={activeProduct} closeModal={closeModal} />
+                // <Dialog open={!!activeProduct} onClose={closeModal} as="div" transition={true} className="relative z-50">
+                //     <DialogBackdrop className="fixed inset-0 bg-black/20" />
+                //     <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
+                //         <DialogPanel className="max-w-5xl space-y-4 border bg-dark/90 flex flex-col">
+                //             <div className='w-full'>
+                //                 <img src='/images/dialog-header.png' alt='dialog header' className='w-full h-auto object-cover' />
+                //             </div>
+                //             <div className='flex gap-10 p-12'>
+                //                 <div className='flex flex-col  gap-4'>
+                //                     <div className='aspect-square h-40 sm:h-48 md:h-56 lg:h-96 rounded-full overflow-hidden border-2 sm:border-3 md:border-4 border-gold'>
+                //                         <img src={activeProduct.imageURL} alt={activeProduct.name} className='h-full w-full object-cover' />
+                //                     </div>
+                //                     <div>
+                //                         <p className='text-white text-lg sm:text-xl text-start'>Share this products</p>
+                //                         <div className='flex justify-center gap-3 sm:gap-4 mt-4'>
+                //                             <a href='https://www.facebook.com' target='_blank' rel='noreferrer' className='text-white text-lg sm:text-xl md:text-2xl cursor-pointer hover:text-gold smooth-transition scale-up'><FaFacebook /></a>
+                //                             <a href='https://www.twitter.com' target='_blank' rel='noreferrer' className='text-white text-lg sm:text-xl md:text-2xl cursor-pointer hover:text-gold smooth-transition scale-up'><FaTwitter /></a>
+                //                             <a href='https://www.instagram.com' target='_blank' rel='noreferrer' className='text-white text-lg sm:text-xl md:text-2xl cursor-pointer hover:text-gold smooth-transition scale-up'><FaInstagram /></a>
+                //                             <a href='https://www.youtube.com' target='_blank' rel='noreferrer' className='text-white text-lg sm:text-xl md:text-2xl cursor-pointer hover:text-gold smooth-transition scale-up'><FaYoutube /></a>
+                //                             <a href='https://www.pinterest.com' target='_blank' rel='noreferrer' className='text-white text-lg sm:text-xl md:text-2xl cursor-pointer hover:text-gold smooth-transition scale-up'><FaPinterest /></a>
+                //                         </div>
+                //                     </div>
+                //                 </div>
+                //                 <div className='flex flex-col justify-center gap-7'>
+                //                     <DialogTitle className="text-white text-4xl border-b-4 border-gold">{activeProduct.name}</DialogTitle>
+                //                     <p className="text-gold text-2xl flex items-center">${activeProduct.salePrice} &nbsp; <s className='text-white text-lg'>${activeProduct.actualPrice}</s></p>
+                //                     <Description className="text-white">{activeProduct.description}</Description>
+                //                     {/* Quantity Range */}
+                //                     <div className='flex gap-4'>
+                //                         <label className='text-white'>Quantity</label>
+                //                         <div className="inline-flex gap-4 px-4 py-1 justify-center border-2 border-gold rounded-2xl bg-white">
+                //                             <button className='text-black hover:scale-125 smooth-transition cursor-pointer ' onClick={() => setQuantity(quantity - 1)}><FaMinus /></button>
+                //                             <input className='w-16 text-center text-black' type="number" name='quantity' value={quantity} onChange={(e) => setQuantity(parseInt(e.target.value))} min={1} />
+                //                             <button className='text-black hover:scale-125 smooth-transition cursor-pointer' onClick={() => setQuantity(quantity + 1)}><FaPlus /></button>
+                //                         </div>
+                //                     </div>
+                //                     <div className="flex gap-4 ">
+                //                         <button className=' px-14 py-2 text-center font-semibold border-2 border-transparent bg-gold text-white hover:bg-white hover:text-gold hover:border-gold text-sm sm:text-base md:text-lg whitespace-nowrap'>Add to cart</button>
+                //                         <button className=' px-14 py-2 text-center font-semibold border-2 border-transparent bg-gold text-white hover:bg-white hover:text-gold hover:border-gold text-sm sm:text-base md:text-lg whitespace-nowrap'>Add to wishlist</button>
+                //                     </div>
+                //                 </div>
+
+                //             </div>
+                //             <div className='w-full'>
+                //                 <img src='/images/dialog-footer.png' alt='dialog header' className='w-full h-auto object-cover' />
+                //             </div>
+                //         </DialogPanel>
+                //     </div>
+                // </Dialog>
+            }
+        </div>
+    )
+
+    const ListStructure = () => (
+        <div className='grid grid-cols-1 mx-auto gap-6'>
+            {currentPosts.map((product: Product) => (
+                <div className='flex place-items-center border-2 border-gold bg-white relative h-auto w-full max-w-4xl' key={product.id}>
+                    <div className='relative'>
+                        {/* Product Image */}
+                        <div className='h-full w-full overflow-hidden'>
+                            <img src={product.imageURL} alt={product.name} className='h-full w-full object-cover' />
+                            <div className='absolute inset-0 shadow-[inset_0_0_10px_rgba(0,0,0,0.4)] pointer-events-none'></div>
+                        </div>
+
+                        {/* Hidden/Hover content */}
+                        <div className='absolute inset-0 flex flex-col items-center justify-center bg-overlay gap-2 opacity-0 hover:opacity-100 transition duration-300 ease-in-out z-15'>
+                            <Button className={'bg-white rounded-full px-8 py-2 cursor-pointer'}><HiOutlineShoppingBag className='h-7 w-7 text-gold hover:scale-110 smooth-transition' /></Button>
+                            <Button type='button' onClick={() => openModal(product)} className={'bg-dark rounded-full px-8 py-2 cursor-pointer'}><IoEyeOutline className='h-7 w-7 text-gold hover:scale-110 smooth-transition' /></Button>
+
+                            <CiHeart className='absolute top-3 left-3 h-8 w-8 text-white hover:scale-110 smooth-transition cursor-pointer' />
+                        </div>
+                    </div>
+                    {/* Product Info */}
+                    <div className="p-6 flex flex-col justify-center items-center gap-6 relative w-full">
+                        <h3 className='text-gold text-3xl text-center'>{product.name}</h3>
+                        <p className='flex items-center gap-2 text-gold text-xl text-center mb-0 mt-auto'>${product.salePrice} <s className='text-black text-sm'>${product.actualPrice}</s></p>
+                        <p className='text-lg text-center'>{product.description}</p>
+                    </div>
+                </div>
+            ))}
+
+
+            {/* Dialog/Modal Box */}
+            {activeProduct &&
+                <Dialog open={!!activeProduct} onClose={closeModal} as="div" transition={true} className="relative z-50">
+                    <DialogBackdrop className="fixed inset-0 bg-black/20" />
+                    <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
+                        <DialogPanel className="max-w-5xl space-y-4 border bg-dark/90 flex flex-col">
+                            <div className='w-full'>
+                                <img src='/images/dialog-header.png' alt='dialog header' className='w-full h-auto object-cover' />
+                            </div>
+                            <div className='flex gap-10 p-12'>
+                                <div className='flex flex-col  gap-4'>
+                                    <div className='aspect-square h-40 sm:h-48 md:h-56 lg:h-96 rounded-full overflow-hidden border-2 sm:border-3 md:border-4 border-gold'>
+                                        <img src={activeProduct.imageURL} alt={activeProduct.name} className='h-full w-full object-cover' />
+                                    </div>
+                                    <div>
+                                        <p className='text-white text-lg sm:text-xl text-start'>Share this products</p>
+                                        <div className='flex justify-center gap-3 sm:gap-4 mt-4'>
+                                            <a href='https://www.facebook.com' target='_blank' rel='noreferrer' className='text-white text-lg sm:text-xl md:text-2xl cursor-pointer hover:text-gold smooth-transition scale-up'><FaFacebook /></a>
+                                            <a href='https://www.twitter.com' target='_blank' rel='noreferrer' className='text-white text-lg sm:text-xl md:text-2xl cursor-pointer hover:text-gold smooth-transition scale-up'><FaTwitter /></a>
+                                            <a href='https://www.instagram.com' target='_blank' rel='noreferrer' className='text-white text-lg sm:text-xl md:text-2xl cursor-pointer hover:text-gold smooth-transition scale-up'><FaInstagram /></a>
+                                            <a href='https://www.youtube.com' target='_blank' rel='noreferrer' className='text-white text-lg sm:text-xl md:text-2xl cursor-pointer hover:text-gold smooth-transition scale-up'><FaYoutube /></a>
+                                            <a href='https://www.pinterest.com' target='_blank' rel='noreferrer' className='text-white text-lg sm:text-xl md:text-2xl cursor-pointer hover:text-gold smooth-transition scale-up'><FaPinterest /></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='flex flex-col justify-center gap-7'>
+                                    <DialogTitle className="text-white text-4xl border-b-4 border-gold">{activeProduct.name}</DialogTitle>
+                                    <p className="text-gold text-2xl flex items-center">${activeProduct.salePrice} &nbsp; <s className='text-white text-lg'>${activeProduct.actualPrice}</s></p>
+                                    <Description className="text-white">{activeProduct.description}</Description>
+                                    {/* Quantity Range */}
+                                    <div className='flex gap-4'>
+                                        <label className='text-white'>Quantity</label>
+                                        <div className="inline-flex gap-4 px-4 py-1 justify-center border-2 border-gold rounded-2xl bg-white">
+                                            <button className='text-black hover:scale-125 smooth-transition cursor-pointer ' onClick={() => setQuantity(quantity - 1)}><FaMinus /></button>
+                                            <input className='w-16 text-center text-black' type="number" name='quantity' value={quantity} onChange={(e) => setQuantity(parseInt(e.target.value))} min={1} />
+                                            <button className='text-black hover:scale-125 smooth-transition cursor-pointer' onClick={() => setQuantity(quantity + 1)}><FaPlus /></button>
+                                        </div>
+                                    </div>
+                                    <div className="flex gap-4 ">
+                                        <button className=' px-14 py-2 text-center font-semibold border-2 border-transparent bg-gold text-white hover:bg-white hover:text-gold hover:border-gold text-sm sm:text-base md:text-lg whitespace-nowrap'>Add to cart</button>
+                                        <button className=' px-14 py-2 text-center font-semibold border-2 border-transparent bg-gold text-white hover:bg-white hover:text-gold hover:border-gold text-sm sm:text-base md:text-lg whitespace-nowrap'>Add to wishlist</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div className='w-full'>
+                                <img src='/images/dialog-footer.png' alt='dialog header' className='w-full h-auto object-cover' />
+                            </div>
+                        </DialogPanel>
+                    </div>
+                </Dialog>
+            }
+        </div>
+    )
 
 
     // Handle sorting based on filter selection
@@ -83,6 +276,9 @@ const ProductPage: React.FC = () => {
 
 
             setProducts(sortedProducts);
+
+            // Reset pagination when filtering
+            setCurrentPage(1);
         }
 
         // Featured Products
@@ -149,10 +345,10 @@ const ProductPage: React.FC = () => {
 
                 <div className='flex justify-center md:justify-start gap-4 mt-4 md:mt-0'>
                     {/* Grid */}
-                    <button className=' text-white hover:text-gold hover:scale-110 smooth-transition cursor-pointer'><FiGrid className='h-6 w-6' /> </button>
+                    <button className=' text-white hover:text-gold hover:scale-110 smooth-transition cursor-pointer' onClick={()=> setIsListView(false)}><FiGrid className='h-6 w-6' /> </button>
 
                     {/* List */}
-                    <button className=' text-white hover:text-gold hover:scale-110 smooth-transition cursor-pointer'><TbLayoutList className='h-7 w-7' /></button>
+                    <button className=' text-white hover:text-gold hover:scale-110 smooth-transition cursor-pointer' onClick={() => setIsListView(true)}><TbLayoutList className='h-7 w-7' /></button>
                 </div>
 
             </div>
@@ -163,99 +359,9 @@ const ProductPage: React.FC = () => {
 
 
     const ProductCard = () => (
-        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
-            {products.map((product: Product) => (
-                <div className='flex flex-col items-center border-2 border-gold bg-white relative h-fit' key={product.id}>
-                    <div className='relative h-full w-full'>
-                        {/* Product Image */}
-                        <div className='w-full h-full overflow-hidden '>
-                            <img src={product.imageURL} alt={product.name} className='h-full w-full object-cover' />
-                            <div className='absolute inset-0 shadow-[inset_0_0_10px_rgba(0,0,0,0.4)] pointer-events-none'></div>
-                        </div>
-
-                        {/* Hidden/Hover content */}
-                        <div className='absolute inset-0 flex flex-col items-center justify-center bg-overlay gap-2 opacity-0 hover:opacity-100 transition duration-300 ease-in-out z-15'>
-                            <Button className={'bg-white rounded-full px-8 py-2 cursor-pointer'}><HiOutlineShoppingBag className='h-7 w-7 text-gold hover:scale-110 smooth-transition' /></Button>
-                            <Button type='button' onClick={() => openModal(product)} className={'bg-dark rounded-full px-8 py-2 cursor-pointer'}><IoEyeOutline className='h-7 w-7 text-gold hover:scale-110 smooth-transition' /></Button>
-
-                            <CiHeart className='absolute top-3 left-3 h-8 w-8 text-white hover:scale-110 smooth-transition cursor-pointer' />
-
-                            {/* {likedProducts 
-                            ?
-                            <CiHeart className='absolute top-3 left-3 h-8 w-8 text-gold hover:scale-110 smooth-transition cursor-pointer' />
-                            :
-                            <FaHeart  className='absolute top-3 left-3 h-8 w-8 text-white hover:scale-110 smooth-transition cursor-pointer' />
-                            } */}
-                        </div>
-                    </div>
-                    {/* Product Info */}
-                    <div className="p-6 mb-0 mt-auto flex flex-col items-center relative flex-grow">
-                        <h3 className='text-gold text-xl text-center'>{product.name}</h3>
-                        <p className='flex items-center gap-2 text-gold text-xl text-center mb-0 mt-auto'><s className='text-black text-sm'>${product.actualPrice}</s> ${product.salePrice}</p>
-                    </div>
-
-
-
-
-                </div>
-            ))}
-
-            {/* Dialog/Modal Box */}
-            {activeProduct &&
-                <Dialog open={!!activeProduct} onClose={closeModal} as="div" transition={true} className="relative z-50">
-                    <DialogBackdrop className="fixed inset-0 bg-black/20" />
-                    <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-                        <DialogPanel className="max-w-5xl space-y-4 border bg-dark/90 flex flex-col">
-                            <div className='w-full'>
-                                <img src='/images/dialog-header.png' alt='dialog header' className='w-full h-auto object-cover' />
-                            </div>
-                            <div className='flex gap-10 p-12'>
-                                <div className='flex flex-col  gap-4'>
-                                    <div className='aspect-square h-40 sm:h-48 md:h-56 lg:h-96 rounded-full overflow-hidden border-2 sm:border-3 md:border-4 border-gold'>
-                                        <img src={activeProduct.imageURL} alt={activeProduct.name} className='h-full w-full object-cover' />
-                                    </div>
-                                    <div>
-                                        <p className='text-white text-lg sm:text-xl text-start'>Share this products</p>
-                                        <div className='flex justify-center gap-3 sm:gap-4 mt-4'>
-                                            <a href='https://www.facebook.com' target='_blank' rel='noreferrer' className='text-white text-lg sm:text-xl md:text-2xl cursor-pointer hover:text-gold smooth-transition scale-up'><FaFacebook /></a>
-                                            <a href='https://www.twitter.com' target='_blank' rel='noreferrer' className='text-white text-lg sm:text-xl md:text-2xl cursor-pointer hover:text-gold smooth-transition scale-up'><FaTwitter /></a>
-                                            <a href='https://www.instagram.com' target='_blank' rel='noreferrer' className='text-white text-lg sm:text-xl md:text-2xl cursor-pointer hover:text-gold smooth-transition scale-up'><FaInstagram /></a>
-                                            <a href='https://www.youtube.com' target='_blank' rel='noreferrer' className='text-white text-lg sm:text-xl md:text-2xl cursor-pointer hover:text-gold smooth-transition scale-up'><FaYoutube /></a>
-                                            <a href='https://www.pinterest.com' target='_blank' rel='noreferrer' className='text-white text-lg sm:text-xl md:text-2xl cursor-pointer hover:text-gold smooth-transition scale-up'><FaPinterest /></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='flex flex-col justify-center gap-7'>
-                                    <DialogTitle className="text-white text-4xl border-b-4 border-gold">{activeProduct.name}</DialogTitle>
-                                    <p className="text-gold text-2xl flex items-center">${activeProduct.salePrice} &nbsp; <s className='text-white text-lg'>${activeProduct.actualPrice}</s></p>
-                                    <Description className="text-white">{activeProduct.description}</Description>
-                                    {/* Quantity Range */}
-                                    <div className='flex gap-4'>
-                                        <label className='text-white'>Quantity</label>
-                                        <div className="inline-flex gap-4 px-4 py-1 justify-center border-2 border-gold rounded-2xl bg-white">
-                                            <button className='text-black hover:scale-125 smooth-transition cursor-pointer ' onClick={() => setQuantity(quantity - 1)}><FaMinus /></button>
-                                            <input className='w-16 text-center text-black' type="number" name='quantity' value={quantity} onChange={(e) => setQuantity(parseInt(e.target.value))} min={1} />
-                                            <button className='text-black hover:scale-125 smooth-transition cursor-pointer' onClick={() => setQuantity(quantity + 1)}><FaPlus /></button>
-                                        </div>
-                                    </div>
-                                    <div className="flex gap-4 ">
-                                        <button className=' px-14 py-2 text-center font-semibold border-2 border-transparent bg-gold text-white hover:bg-white hover:text-gold hover:border-gold text-sm sm:text-base md:text-lg whitespace-nowrap'>Add to cart</button>
-                                        <button className=' px-14 py-2 text-center font-semibold border-2 border-transparent bg-gold text-white hover:bg-white hover:text-gold hover:border-gold text-sm sm:text-base md:text-lg whitespace-nowrap'>Add to wishlist</button>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div className='w-full'>
-                                <img src='/images/dialog-footer.png' alt='dialog header' className='w-full h-auto object-cover' />
-                            </div>
-                        </DialogPanel>
-                    </div>
-                </Dialog>
-            }
-
-
-
-        </div>
+        <>
+            {isListView ? <ListStructure /> : <GridStructure />}
+        </>
     )
 
     return (
@@ -276,7 +382,7 @@ const ProductPage: React.FC = () => {
                     </div>
 
                     {/* Product List */}
-                    <div className='flex flex-col gap-4 py-6 max-w-7xl mx-auto relative'>
+                    <div className='flex flex-col gap-4 py-6 w-7xl mx-auto relative'>
 
                         {/* Search / Filter */}
                         <SearchBar />
@@ -284,10 +390,42 @@ const ProductPage: React.FC = () => {
                         {/* Products Count Info */}
                         <div className='text-white text-sm mb-4'>
                             Total {products.length} products found
+                            {/* Showing number of products per page */}
+                            {products.length > postsPerPage && (
+                                <span className='ml-2'>
+                                    (Showing {firstPostIndex + 1}-{Math.min(lastPostIndex, products.length)} of {products.length})
+                                </span>
+                            )}
                         </div>
 
                         {/* Product Card */}
                         <ProductCard />
+                        {totalPages > 1 && (
+                            <div className='flex justify-center mt-8'>
+                                <Pagination
+                                    page={currentPage}
+                                    count={totalPages}
+                                    onChange={handlePageChange}
+                                    variant='outlined'
+                                    color='primary'
+                                    size='large'
+                                    sx={
+                                        {
+                                            '& .MuiPaginationItem-root': {
+                                                color: 'white',
+                                                borderColor: 'transparent',
+                                            },
+                                            '& .MuiPaginationItem-root.Mui-selected': {
+                                                color: 'gold',
+                                                borderColor: 'gold',
+                                            }
+                                        }
+                                    }
+                                />
+                            </div>
+
+                        )}
+
 
                         {/* Leaf Background Element */}
                         <div className='absolute top-0 right-0 translate-x-50 -translate-y-20 -rotate-40 -z-5'>

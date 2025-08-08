@@ -21,11 +21,15 @@ const Sidebar = () => {
     }
     return (
         <nav className='h-full flex items-center p-2 sm:p-4'>
-            {!isOpen ? <div className='flex flex-col items-center h-full w-full  '>
+            {!isOpen ? <div className='flex md:flex-col items-center h-full w-full  '>
                 <button onClick={openSidebar} className='cursor-pointer'><GiHamburgerMenu className='text-white text-3xl sm:text-4xl md:text-5xl' /></button>
 
-                <div className='flex items-center h-[80%] w-full justify-center'>
+                <div className='hidden md:flex items-center h-fit md:h-[80%] w-full justify-center '>
                     <img src={Logo} alt="logo" className='w-auto h-48 sm:h-64 md:h-80 lg:h-96 object-contain max-w-full' />
+                </div>
+
+                <div className='flex md:hidden items-center h-10 w-auto justify-center mx-auto'>
+                    <img src={Logo2} alt="logo" className='w-auto h-full object-contain' />
                 </div>
             </div> :
                 null

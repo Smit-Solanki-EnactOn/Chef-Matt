@@ -8,11 +8,17 @@ const Layout = () => {
   
   return (
     <>
-      <aside className='sidebar'>
+      {/* Desktop sidebar */}
+      <aside className='sidebar hidden md:block'>
         <Sidebar />
       </aside>
 
-      <main>
+      {/* Mobile sidebar */}
+      <div className='md:hidden'>
+        <Sidebar />
+      </div>
+
+      <main className='flex-1'>
         <Outlet />
       </main>
 

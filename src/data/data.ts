@@ -208,9 +208,9 @@ export const filterData = [
 ]
 
 export const featuredData = [
-    { id: 1, name: 'Honey' },
-    { id: 2, name: 'Olive Oil' },
-    { id: 3, name: 'Coconut Oil' },
-    { id: 4, name: 'Gourmet Dried Fruit' },
-    { id: 5, name: 'wine' }
+    { id: 1, option: 'Honey' },
+    { id: 2, option: 'Olive Oil' },
+    { id: 3, option: 'Coconut Oil' },
+    { id: 4, option: 'Gourmet Dried Fruit' },
+    { id: 5, option: 'wine' }
 ]

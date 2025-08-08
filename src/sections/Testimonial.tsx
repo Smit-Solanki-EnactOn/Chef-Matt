@@ -2,13 +2,11 @@ import StemElement from "/images/testimonial-stem.png"
 import { testimonialData } from '../data/data'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import React, { useState } from 'react'
-
-
 import { EffectCoverflow, Navigation, Pagination } from 'swiper/modules'
 
 const Testimonial = () => {
   // const [sliderIndex, setSliderIndex] = React.useState(0);
-  const [activeSlideIndex, setActiveSlideIndex] = useState();
+  const [activeSlideIndex, setActiveSlideIndex] = useState<number | null>(null);
 
   console.log(activeSlideIndex)
 
@@ -17,8 +15,8 @@ const Testimonial = () => {
     <section className='section-padding'>
       {/* Container */}
       <div className="relative container mx-auto px-4">
-        <div className='absolute top-0 right-0 -translate-y-32 sm:-translate-y-44 md:-translate-y-58 z-0'>
-          <img src={StemElement} className='w-16 sm:w-20 md:w-24 lg:w-auto' />
+        <div className='absolute top-0 right-0  -translate-y-70 -z-5'>
+          <img src={StemElement} className='w-16 sm:w-24 md:w-auto opacity-50 sm:opacity-100' />
         </div>
         {/* Wrapper */}
         <div className="py-4 flex flex-col gap-8 sm:gap-12 md:gap-16 z-10 relative">
@@ -76,7 +74,7 @@ const Testimonial = () => {
                 <div className='aspect-square h-32 sm:h-36 md:h-40 lg:h-48 rounded-full overflow-hidden '>
                   <img src={ṭestimonial.userImage} alt={ṭestimonial.userName} className='h-full w-full object-cover' />
                 </div>
-                
+
                 {activeSlideIndex === testimonialData.indexOf(ṭestimonial) && (
                   <div className='flex flex-col gap-2 sm:gap-3 md:gap-4'>
                     <h3 className='text-gold text-sm sm:text-base md:text-lg lg:text-xl text-center px-2'>{ṭestimonial.userName}</h3>

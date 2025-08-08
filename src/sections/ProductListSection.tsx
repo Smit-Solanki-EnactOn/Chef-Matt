@@ -4,9 +4,6 @@ import LeftArrow from "/images/arrow-left.svg"
 import RightArrow from "/images/arrow-right.svg"
 import { productData } from '../data/data'
 import { Swiper, SwiperSlide } from 'swiper/react'
-
-
-
 import { FreeMode, Navigation, Pagination } from 'swiper/modules'
 
 const ProductListSection = () => {
@@ -14,9 +11,10 @@ const ProductListSection = () => {
     <section className='section-padding'>
       {/* Container */}
       <div className="relative container mx-auto px-4">
-        <div className='absolute top-0 left-1 -translate-y-58  z-0'>
-          <img src={LeafElement} className='w-auto' />
+        <div className='absolute top-0 left-0 -translate-y-50 z-0 '>
+          <img src={LeafElement} className='w-auto opacity-50' />
         </div>
+
         {/* Wrapper */}
         <div className="py-4 flex flex-col gap-8 sm:gap-12 md:gap-16 z-10 relative">
           {/* Section Head */}

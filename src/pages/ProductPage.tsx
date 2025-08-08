@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react'; // Removed useReducer
-import { Button, Input, Listbox, ListboxButton, ListboxOption, ListboxOptions, Dialog, DialogPanel, DialogTitle, Description, DialogBackdrop } from '@headlessui/react';
+import { Button, Input } from '@headlessui/react';
 import { FiGrid } from "react-icons/fi";
-import { BiSolidDownArrow } from 'react-icons/bi';
 import { TbLayoutList } from "react-icons/tb";
 import { IoEyeOutline } from "react-icons/io5";
-import { FaPlus, FaMinus } from "react-icons/fa6";
 import { CiHeart } from "react-icons/ci";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
-import clsx from 'clsx';
 import LeafElement from "/images/leaf.png"
 import StemElement from "/images/Stem-Element.png"
 import Pagination from '@mui/material/Pagination';
@@ -45,11 +42,10 @@ const ProductPage: React.FC = () => {
     const [filter, setFilter] = useState<Filter | null>(null);
     const [featured, setFeatured] = useState<Feature | null>(null);
     const [searchTerm, setSearchTerm] = useState<string>('');
-    const [quantity, setQuantity] = useState<number>(1);
-    // const [isOpen, setIsOpen] = useState<boolean>(false);
     const [activeProduct, setActiveProduct] = useState<Product | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const [postsPerPage, setPostsPerPage] = useState<number>(12);
+    const [postsPerPage] = useState<number>(12);
+    const [isMobile, setIsMobile] = useState<boolean>(false);
 
     // state for showing product in grid or list
     const [isListView, setIsListView] = useState<boolean>(false);
@@ -67,6 +63,19 @@ const ProductPage: React.FC = () => {
     // .ceil() is used to round up the total number of pages that is 12 products per page
     const totalPages = Math.ceil(products.length / postsPerPage);
 
+
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768); // md breakpoint is 768px
+        };
+
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+
+
     const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
         setCurrentPage(page);
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -74,7 +83,7 @@ const ProductPage: React.FC = () => {
 
     // DialogBox Open/Close Function
     function openModal(product: Product) {
-        setQuantity(1)
+        // setQuantity(1)
         setActiveProduct(product)
     }
 
@@ -91,7 +100,7 @@ const ProductPage: React.FC = () => {
                         {/* Product Image */}
                         <div className='h-full w-auto overflow-hidden shrink-0'>
                             <img src={product.imageURL} alt={product.name} className='h-full w-full object-cover' />
-                            <div className='absolute inset-0 shadow-[inset_0_0_10px_rgba(0,0,0,0.4)] pointer-events-none'></div>
+                            <div className='absolute inset-0 shadow-[inset_0_0_10px_rgba(0,0,0,0.4)]'></div>
                         </div>
 
                         {/* Hidden/Hover content */}
@@ -120,7 +129,7 @@ const ProductPage: React.FC = () => {
         <div className='grid grid-cols-1 mx-auto gap-6'>
             {currentPosts.map((product: Product) => (
                 <div className='flex place-items-center border-2 border-gold bg-white relative h-auto w-full max-w-4xl' key={product.id}>
-                    <div className='relative'>
+                    <div className='relative h-full w-full'>
                         {/* Product Image */}
                         <div className='h-full w-full overflow-hidden'>
                             <img src={product.imageURL} alt={product.name} className='h-full w-full object-cover' />
@@ -128,26 +137,49 @@ const ProductPage: React.FC = () => {
                         </div>
 
                         {/* Hidden/Hover content */}
-                        <div className='absolute inset-0 flex flex-col items-center justify-center bg-overlay gap-2 opacity-0 hover:opacity-100 transition duration-300 ease-in-out z-15'>
-                            <Button className={'bg-white rounded-full px-8 py-2 cursor-pointer'}><HiOutlineShoppingBag className='h-7 w-7 text-gold hover:scale-110 smooth-transition' /></Button>
-                            <Button type='button' onClick={() => openModal(product)} className={'bg-dark rounded-full px-8 py-2 cursor-pointer'}><IoEyeOutline className='h-7 w-7 text-gold hover:scale-110 smooth-transition' /></Button>
+                        {!isMobile &&
+                            <div className='absolute inset-0 flex flex-col items-center justify-center bg-overlay gap-2 opacity-0 hover:opacity-100 transition duration-300 ease-in-out z-15'>
+                                <Button className={'bg-white rounded-full px-8 py-2 cursor-pointer'}><HiOutlineShoppingBag className='h-7 w-7 text-gold hover:scale-110 smooth-transition' /></Button>
+                                <Button type='button' onClick={() => openModal(product)} className={'bg-dark rounded-full px-8 py-2 cursor-pointer'}><IoEyeOutline className='h-7 w-7 text-gold hover:scale-110 smooth-transition' /></Button>
 
-                            <CiHeart className='absolute top-3 left-3 h-8 w-8 text-white hover:scale-110 smooth-transition cursor-pointer' />
+                                <CiHeart className='absolute top-3 left-3 h-8 w-8 text-white hover:scale-110 smooth-transition cursor-pointer' />
+                            </div>
+                        }
+
+                    </div>
+                    <div className="flex flex-col justify-center items-center gap-3 sm:gap-4 md:gap-6 w-full p-4 sm:p-6">
+                        {/* Product Info */}
+                        <div className="p-6 flex flex-col justify-center items-center gap-2 sm:gap-4 md:gap-6 relative w-full">
+                            <h3 className='text-gold text-xl sm:text-2xl md:text-3xl text-center'>{product.name}</h3>
+                            <p className='flex items-center gap-2 text-gold text-base sm:text-lg md:text-xl text-center mb-0 mt-auto'>${product.salePrice} <s className='text-black text-sm'>${product.actualPrice}</s></p>
+                            <p className='text-sm sm:text-base md:text-lg text-center'>{product.description}</p>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className='flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 md:gap-6 w-full p-4 sm:p-6'>
+                            <button className='bg-gold text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg hover:bg-yellow-600 transition-colors flex items-center justify-center gap-2 text-sm sm:text-base font-medium'>
+                                <HiOutlineShoppingBag className='h-4 sm:h-5 w-4 sm:w-5' />
+                                <span className='font-medium'>Add to Cart</span>
+                            </button>
+                            <button
+                                onClick={() => openModal(product)}
+                                className='bg-gray-800 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg hover:bg-gray-700 transition-colors flex items-center justify-center gap-2 text-sm sm:text-base font-medium'
+                            >
+                                <IoEyeOutline className='h-4 sm:h-5 w-4 sm:w-5' />
+                                <span className='font-medium'>View Details</span>
+                            </button>
                         </div>
                     </div>
-                    {/* Product Info */}
-                    <div className="p-6 flex flex-col justify-center items-center gap-6 relative w-full">
-                        <h3 className='text-gold text-3xl text-center'>{product.name}</h3>
-                        <p className='flex items-center gap-2 text-gold text-xl text-center mb-0 mt-auto'>${product.salePrice} <s className='text-black text-sm'>${product.actualPrice}</s></p>
-                        <p className='text-lg text-center'>{product.description}</p>
-                    </div>
+
                 </div>
-            ))}
+            ))
+            }
+
 
 
             {/* Dialog/Modal Box */}
             {activeProduct && <DialogBox productData={activeProduct} closeModal={closeModal} />}
-        </div>
+        </div >
     )
 
 
@@ -214,7 +246,7 @@ const ProductPage: React.FC = () => {
                     <SelectDropdown<Feature> listData={featuredData} list={featured} setList={setFeatured} text='Featured' />
                 </div>
 
-                <div className='flex justify-center md:justify-start items-center gap-4 mt-0'>
+                <div className={` justify-center md:justify-start items-center gap-4 mt-0 ${isMobile ? 'hidden' : 'flex'}`}>
                     {/* Grid */}
                     <button className=' text-white hover:text-gold hover:scale-110 smooth-transition cursor-pointer' onClick={() => setIsListView(false)}><FiGrid className='h-6 w-6' /> </button>
 
@@ -231,7 +263,7 @@ const ProductPage: React.FC = () => {
 
     const ProductCard = () => (
         <>
-            {isListView ? <ListStructure /> : <GridStructure />}
+            {isMobile || isListView ? <ListStructure /> : <GridStructure />}
         </>
     )
 

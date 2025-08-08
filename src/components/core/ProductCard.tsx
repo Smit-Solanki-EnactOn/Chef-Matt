@@ -1,11 +1,11 @@
-import React from 'react'
-import { Button, Dialog, DialogPanel, DialogTitle, Description, DialogBackdrop } from '@headlessui/react';
+import { Button } from '@headlessui/react';
 import { IoEyeOutline } from "react-icons/io5";
 import { CiHeart } from "react-icons/ci";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 
-interafec ProductCardProps {
-    product: Product
+interface ProductCardProps {
+    product: Product;
+    openModal: (product: Product) => void;
 }
 interface Product {
     id: number;
@@ -16,6 +16,10 @@ interface Product {
     imageURL: string;
 }
 const ProductCard = (props: ProductCardProps) => {
+    const { product } = props;
+    const openModal = (product: Product) => { 
+        props.openModal(product);
+    };
     return (
 
         <div className='flex flex-col items-center border-2 border-gold bg-white relative h-fit' key={product.id}>

@@ -21,13 +21,13 @@ interface Feature {
     option: string;
 }
 const SelectDropdown = <T extends Filter | Feature>(props: SelectDropDownProps<T>) => {
-    const {listData, list, setList, text} = props;
+    const { listData, list, setList, text } = props;
 
     return (
         <Listbox value={list} onChange={setList}>
-            <ListboxButton className={clsx('flex items-center justify-center gap-2 w-full p-2 cursor-pointer text-white  bg-transparent placeholder:text-gray-300 focus:border-white text-md')}>
+            <ListboxButton className={clsx('flex items-center justify-center gap-2 w-full p-2 cursor-pointer text-white hover:text-gold bg-transparent placeholder:text-gray-300 focus:border-white text-md')}>
                 {list ? list.option : text}
-                <BiSolidDownArrow className="h-4 w-4 text-white" aria-hidden="true" />
+                <BiSolidDownArrow className="h-4 w-4 " aria-hidden="true" />
             </ListboxButton>
 
             <ListboxOptions transition={true} anchor="bottom" className='w-[--button-width] p-2 text-sm text-gray-300 border-2 border-gray-300 bg-black placeholder:text-gray-300 focus:border-white z-10'>

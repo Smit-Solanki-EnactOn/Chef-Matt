@@ -93,8 +93,8 @@ const DialogBox = (props: DialogBoxProps) => {
                                 </div>
                             </div>
                             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                                <button className='w-full sm:w-auto px-6 sm:px-10 md:px-14 py-2 sm:py-2 text-center font-semibold border-2 border-transparent bg-gold text-white hover:bg-white hover:text-gold hover:border-gold text-sm sm:text-base md:text-lg whitespace-nowrap'>Add to cart</button>
-                                <button className='w-full sm:w-auto px-6 sm:px-10 md:px-14 py-2 sm:py-2 text-center font-semibold border-2 border-transparent bg-gold text-white hover:bg-white hover:text-gold hover:border-gold text-sm sm:text-base md:text-lg whitespace-nowrap'>Add to wishlist</button>
+                                <button className='w-full sm:w-auto px-6 sm:px-10 md:px-14 py-2 sm:py-2 text-center font-semibold border-2 border-transparent bg-gold text-white hover:bg-white hover:text-gold hover:border-gold text-sm sm:text-base md:text-lg whitespace-nowrap cursor-pointer'>Add to cart</button>
+                                <button className='w-full sm:w-auto px-6 sm:px-10 md:px-14 py-2 sm:py-2 text-center font-semibold border-2 border-transparent bg-gold text-white hover:bg-white hover:text-gold hover:border-gold text-sm sm:text-base md:text-lg whitespace-nowrap cursor-pointer'>Add to wishlist</button>
                             </div>
                         </div>
                     </div>

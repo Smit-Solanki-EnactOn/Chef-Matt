@@ -4,7 +4,7 @@ import ProductListSection from '../sections/ProductListSection'
 import Discountbanner from '../sections/Discountbanner'
 import Testimonial from '../sections/Testimonial'
 import { motion } from 'framer-motion'
-import { EaseInOut } from '../components/core/EaseInOut'
+import { EaseInOut } from '../animation/EaseInOut'
 // import PromotionSection from '../sections/PromotionSection'
 
 const HomePage = () => {

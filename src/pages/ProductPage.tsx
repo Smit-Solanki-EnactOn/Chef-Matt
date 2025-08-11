@@ -12,7 +12,7 @@ import DialogBox from '../components/core/DialogBox';
 import SelectDropdown from '../components/core/SelectDropdown';
 import { featuredData, filterData, productData } from '../data/data';
 import { motion } from 'framer-motion';
-import { EaseInOut } from '../components/core/EaseInOut';
+import { EaseInOut } from '../animation/EaseInOut';
 
 interface Filter {
     id: number;
@@ -98,7 +98,7 @@ const ProductPage: React.FC = () => {
         <motion.div
             className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'
             variants={EaseInOut}
-            initial= 'initial'
+            initial='initial'
             animate='animate'
             exit='initial'
             transition={{ duration: 0.4, ease: 'easeInOut' }}
@@ -138,7 +138,7 @@ const ProductPage: React.FC = () => {
         <motion.div
             className='grid grid-cols-1 mx-auto gap-6'
             variants={EaseInOut}
-            initial= 'initial'
+            initial='initial'
             animate='animate'
             exit='initial'
             transition={{ duration: 0.4, ease: 'easeInOut' }}
@@ -147,7 +147,7 @@ const ProductPage: React.FC = () => {
                 <div className='flex flex-col sm:flex-row place-items-center border-2 border-gold bg-white relative h-auto w-full max-w-4xl' key={product.id}>
                     <div className='relative h-full w-full'>
                         {/* Product Image */}
-                        <div className='h-full w-full overflow-hidden'>
+                        <div className='h-full w-auto overflow-hidden shrink-0'>
                             <img src={product.imageURL} alt={product.name} className='h-full w-full object-cover' />
                             <div className='absolute inset-0 shadow-[inset_0_0_10px_rgba(0,0,0,0.4)] pointer-events-none'></div>
                         </div>
@@ -243,11 +243,23 @@ const ProductPage: React.FC = () => {
         setSearchTerm(item as string);
     }
 
+    function handleReset(): void {
+        console.log('reset');
+        // Clear all filters and reset pagination
+        setSearchTerm('');
+        setFeatured(null);
+        setFilter(null);
+        setCurrentPage(1);
+    }
+
     const SearchBar: React.FC = () => (
         <div className="flex flex-col w-full gap-4">
-            <form className='flex w-full gap-4' action={handleSearch}>
+            <form className='flex flex-col sm:flex-row w-full gap-4' action={handleSearch}>
                 <Input type="text" placeholder='Search' name='item' className='w-full p-2 text-md  text-gray-300 border-b-2 border-gray-300 bg-transparent placeholder:text-gray-300 focus:border-white' />
-                <button type='submit' className='bg-gold text-white hover:bg-white hover:text-gold px-26 py-2 text-md font-medium transition duration-300 ease-in-out cursor-pointer whitespace-nowrap'>Search</button>
+                <div className="flex gap-2 mx-auto">
+                    <button type='submit' className='bg-gold text-white hover:bg-white hover:text-gold px-10 py-2 text-md font-medium smooth-transition cursor-pointer whitespace-nowrap'>Search</button>
+                    <button type='reset' onClick={handleReset} className='bg-white text-black border-1 border-transparent hover:border-white hover:bg-dark hover:text-white px-10 py-2 text-md font-medium smooth-transition cursor-pointer'>Reset</button>
+                </div>
             </form>
 
             <div className='flex flex-row gap-4 items-center justify-center sm:justify-end'>
@@ -286,7 +298,7 @@ const ProductPage: React.FC = () => {
     return (
         <motion.section
             variants={EaseInOut}
-            initial= 'initial'
+            initial='initial'
             animate='animate'
             exit='initial'
             transition={{ duration: 0.4, ease: 'easeInOut' }}

@@ -15,11 +15,11 @@ const Layout = () => {
       </aside>
 
       {/* Mobile sidebar */}
-      <div className='md:hidden fixed z-50 top-0 left-0 right-0'>
+      <div className='md:hidden fixed z-50 top-0 left-0 right-0 w-full'>
         <Sidebar /> 
       </div>
 
-      <main className='flex-1'>
+      <main className='flex-1 mt-14 sm:mt-0'>
         <ScrollRestoration />
         <Outlet />
         <PromotionSection />

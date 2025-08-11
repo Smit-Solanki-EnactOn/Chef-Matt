@@ -44,7 +44,7 @@ const ProductListSection = () => {
             slidesPerView={1}
             spaceBetween={20}
             loop={true}
-            freeMode={true}
+            freeMode={false}
             pagination={false}
             navigation={{
               nextEl: '.button-next',

@@ -11,6 +11,8 @@ import Pagination from '@mui/material/Pagination';
 import DialogBox from '../components/core/DialogBox';
 import SelectDropdown from '../components/core/SelectDropdown';
 import { featuredData, filterData, productData } from '../data/data';
+import { motion } from 'framer-motion';
+import { EaseInOut } from '../components/core/EaseInOut';
 
 interface Filter {
     id: number;
@@ -66,7 +68,7 @@ const ProductPage: React.FC = () => {
 
     useEffect(() => {
         const checkMobile = () => {
-            setIsMobile(window.innerWidth < 768); // md breakpoint is 768px
+            setIsMobile(window.innerWidth < 768);
         };
 
         checkMobile();
@@ -93,7 +95,14 @@ const ProductPage: React.FC = () => {
 
     // GRID Structure
     const GridStructure = () => (
-        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
+        <motion.div
+            className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'
+            variants={EaseInOut}
+            initial= 'initial'
+            animate='animate'
+            exit='initial'
+            transition={{ duration: 0.4, ease: 'easeInOut' }}
+        >
             {currentPosts.map((product: Product) => (
                 <div className='flex flex-col items-center border-2 border-gold bg-white relative h-fit' key={product.id}>
                     <div className='relative h-full w-full'>
@@ -122,13 +131,20 @@ const ProductPage: React.FC = () => {
 
             {/* Dialog/Modal Box */}
             {activeProduct && <DialogBox productData={activeProduct} closeModal={closeModal} />}
-        </div>
+        </motion.div>
     )
 
     const ListStructure = () => (
-        <div className='grid grid-cols-1 mx-auto gap-6'>
+        <motion.div
+            className='grid grid-cols-1 mx-auto gap-6'
+            variants={EaseInOut}
+            initial= 'initial'
+            animate='animate'
+            exit='initial'
+            transition={{ duration: 0.4, ease: 'easeInOut' }}
+        >
             {currentPosts.map((product: Product) => (
-                <div className='flex place-items-center border-2 border-gold bg-white relative h-auto w-full max-w-4xl' key={product.id}>
+                <div className='flex flex-col sm:flex-row place-items-center border-2 border-gold bg-white relative h-auto w-full max-w-4xl' key={product.id}>
                     <div className='relative h-full w-full'>
                         {/* Product Image */}
                         <div className='h-full w-full overflow-hidden'>
@@ -156,14 +172,14 @@ const ProductPage: React.FC = () => {
                         </div>
 
                         {/* Action Buttons */}
-                        <div className='flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 md:gap-6 w-full p-4 sm:p-6'>
-                            <button className='bg-gold text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg hover:bg-yellow-600 transition-colors flex items-center justify-center gap-2 text-sm sm:text-base font-medium'>
+                        <div className='flex flex-row sm:flex-col md:flex-row items-center justify-center gap-3 sm:gap-4 md:gap-6 w-full p-4 sm:p-6'>
+                            <button className='bg-gold text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg hover:bg-yellow-600 transition-colors flex items-center justify-center gap-2 text-sm sm:text-base font-medium w-fit cursor-pointer'>
                                 <HiOutlineShoppingBag className='h-4 sm:h-5 w-4 sm:w-5' />
                                 <span className='font-medium'>Add to Cart</span>
                             </button>
                             <button
                                 onClick={() => openModal(product)}
-                                className='bg-gray-800 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg hover:bg-gray-700 transition-colors flex items-center justify-center gap-2 text-sm sm:text-base font-medium'
+                                className='bg-gray-800 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg hover:bg-gray-700 transition-colors flex items-center justify-center gap-2 text-sm sm:text-base font-medium w-fit cursor-pointer'
                             >
                                 <IoEyeOutline className='h-4 sm:h-5 w-4 sm:w-5' />
                                 <span className='font-medium'>View Details</span>
@@ -179,7 +195,7 @@ const ProductPage: React.FC = () => {
 
             {/* Dialog/Modal Box */}
             {activeProduct && <DialogBox productData={activeProduct} closeModal={closeModal} />}
-        </div >
+        </motion.div >
     )
 
 
@@ -268,7 +284,13 @@ const ProductPage: React.FC = () => {
     )
 
     return (
-        <section>
+        <motion.section
+            variants={EaseInOut}
+            initial= 'initial'
+            animate='animate'
+            exit='initial'
+            transition={{ duration: 0.4, ease: 'easeInOut' }}
+        >
             <div className="container mx-auto px-2 sm:px-4 overflow-hidden">
                 <div className="flex flex-col space-y-6 sm:space-y-8 md:space-y-10 py-4">
                     {/* Product Heading */}
@@ -349,7 +371,7 @@ const ProductPage: React.FC = () => {
 
                 </div>
             </div>
-        </section>
+        </motion.section>
     )
 }
 

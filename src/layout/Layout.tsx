@@ -5,8 +5,8 @@ import PromotionSection from '../sections/PromotionSection'
 import { Outlet, ScrollRestoration } from 'react-router-dom'
 
 const Layout = () => {
-  
-  
+
+
   return (
     <>
       {/* Desktop sidebar */}
@@ -16,18 +16,21 @@ const Layout = () => {
 
       {/* Mobile sidebar */}
       <div className='md:hidden fixed z-50 top-0 left-0 right-0 w-full'>
-        <Sidebar /> 
+        <Sidebar />
       </div>
 
-      <main className='flex-1 mt-14 sm:mt-0'>
-        <ScrollRestoration />
-        <Outlet />
-        <PromotionSection />
-      </main>
+      <div className='flex flex-col min-h-screen pl-0 md:pl-34'>
+        <main className='flex-1 mt-14 sm:mt-0 '>
+          <ScrollRestoration />
+          <Outlet />
+          <PromotionSection />
+        </main>
 
-      <footer className='mb-0 mt-auto'>
-        <Footer />
-      </footer>
+        <footer className='mb-0 mt-auto'>
+          <Footer />
+        </footer>
+      </div>
+
     </>
   )
 }

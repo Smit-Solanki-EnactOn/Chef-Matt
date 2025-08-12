@@ -15,14 +15,14 @@ const Testimonial = () => {
     <section className='section-padding'>
       {/* Container */}
       <div className="relative container mx-auto px-4">
-        <div className='absolute top-0 right-0  -translate-y-70 -z-5'>
+        <div className='absolute top-0 right-0  -translate-y-70 -z-1'>
           <img src={StemElement} className='w-16 sm:w-24 md:w-auto opacity-50 sm:opacity-100' />
         </div>
         {/* Wrapper */}
-        <div className="py-4 flex flex-col gap-8 sm:gap-12 md:gap-16 z-10 relative">
+        <div className="py-4 flex flex-col gap-8 sm:gap-12 md:gap-16 z-1 relative">
           {/* Section Head */}
           <div className="flex flex-col gap-6 sm:gap-8 md:gap-10 max-w-full sm:max-w-lg">
-            <h2 className='text-xl sm:text-2xl md:text-3xl font-medium text-gold uppercase'>Chef Matt ṭestimonial</h2>
+            <h2 className='text-xl sm:text-2xl md:text-3xl font-medium text-gold uppercase'>Chef Matt Testimonial</h2>
             <p className='text-white text-base sm:text-lg md:text-xl'>Shop Gourmet Chef Quality ṭestimonials from the Chef Matt brand. Chef it yourself and Thank us later.</p>
           </div>
 
@@ -35,7 +35,7 @@ const Testimonial = () => {
             // slidesPerView={5}
             slidesPerView={1}
             spaceBetween={20}
-            loop={true}
+            loop={false}
             grabCursor={true}
             centeredSlides={true}
             effect="coverflow"

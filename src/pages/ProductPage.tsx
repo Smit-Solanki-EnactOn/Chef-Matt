@@ -13,6 +13,7 @@ import SelectDropdown from '../components/core/SelectDropdown';
 import { featuredData, filterData, productData } from '../data/data';
 import { motion } from 'framer-motion';
 import { EaseInOut } from '../animation/EaseInOut';
+// import ProductCard from '../components/core/ProductCard';
 
 interface Filter {
     id: number;
@@ -48,7 +49,7 @@ const ProductPage: React.FC = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [postsPerPage] = useState<number>(12);
     const [isMobile, setIsMobile] = useState<boolean>(false);
-
+// ---------------------------------------------------
     // state for showing product in grid or list
     const [isListView, setIsListView] = useState<boolean>(false);
 
@@ -113,7 +114,7 @@ const ProductPage: React.FC = () => {
                         </div>
 
                         {/* Hidden/Hover content */}
-                        <div className='absolute inset-0 flex flex-col items-center justify-center bg-overlay gap-2 opacity-0 hover:opacity-100 transition duration-300 ease-in-out z-15'>
+                        <div className='absolute inset-0 flex flex-col items-center justify-center bg-overlay gap-2 opacity-0 hover:opacity-100 transition duration-300 ease-in-out z-1'>
                             <Button className={'bg-white rounded-full px-8 py-2 cursor-pointer'}><HiOutlineShoppingBag className='h-7 w-7 text-gold hover:scale-110 smooth-transition' /></Button>
                             <Button type='button' onClick={() => openModal(product)} className={'bg-dark rounded-full px-8 py-2 cursor-pointer'}><IoEyeOutline className='h-7 w-7 text-gold hover:scale-110 smooth-transition' /></Button>
 
@@ -154,7 +155,7 @@ const ProductPage: React.FC = () => {
 
                         {/* Hidden/Hover content */}
                         {!isMobile &&
-                            <div className='absolute inset-0 flex flex-col items-center justify-center bg-overlay gap-2 opacity-0 hover:opacity-100 transition duration-300 ease-in-out z-15'>
+                            <div className='absolute inset-0 flex flex-col items-center justify-center bg-overlay gap-2 opacity-0 hover:opacity-100 transition duration-300 ease-in-out z-1'>
                                 <Button className={'bg-white rounded-full px-8 py-2 cursor-pointer'}><HiOutlineShoppingBag className='h-7 w-7 text-gold hover:scale-110 smooth-transition' /></Button>
                                 <Button type='button' onClick={() => openModal(product)} className={'bg-dark rounded-full px-8 py-2 cursor-pointer'}><IoEyeOutline className='h-7 w-7 text-gold hover:scale-110 smooth-transition' /></Button>
 
@@ -307,10 +308,10 @@ const ProductPage: React.FC = () => {
                 <div className="flex flex-col space-y-6 sm:space-y-8 md:space-y-10 py-4">
                     {/* Product Heading */}
                     <div className='text-xl sm:text-2xl text-white relative h-40 sm:h-60 md:h-80 lg:h-96'>
-                        <div className='absolute inset-0 h-auto w-full z-0'>
+                        <div className='absolute inset-0 h-auto w-full'>
                             <img src='/images/Product-Header.png' className='h-full w-full object-cover' />
                         </div>
-                        <div className='relative z-10 flex flex-col h-full justify-center px-4'>
+                        <div className='relative flex flex-col h-full justify-center px-4'>
                             <h2 className='text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gold tracking-wider sm:tracking-widest mb-2 sm:mb-4 text-center'>
                                 CHEF MATT PRODUCTS
                             </h2>
@@ -367,12 +368,12 @@ const ProductPage: React.FC = () => {
 
 
                         {/* Leaf Background Element */}
-                        <div className='absolute top-0 right-0 translate-x-1/4 sm:translate-x-1/2 -translate-y-10 sm:-translate-y-20 -rotate-40 -z-5'>
+                        <div className='hidden xl:block absolute top-0 right-0 translate-x-1/4 sm:translate-x-1/2 -translate-y-10 sm:-translate-y-20 -rotate-40 -z-1'>
                             <img src={LeafElement} className='w-16 sm:w-24 md:w-auto opacity-50 sm:opacity-100' />
                         </div>
 
                         {/* Stem Background Element */}
-                        <div className='absolute top-0 left-0 -translate-x-1/4 sm:-translate-x-1/2 translate-y-40 sm:translate-y-60 md:translate-y-80 -z-5'>
+                        <div className='hidden xl:block absolute top-0 left-0 -translate-x-1/4 sm:-translate-x-1/2 translate-y-40 sm:translate-y-60 md:translate-y-80 -z-1'>
                             <img src={StemElement} className='w-16 sm:w-24 md:w-auto opacity-50 sm:opacity-100' />
                         </div>
                     </div>

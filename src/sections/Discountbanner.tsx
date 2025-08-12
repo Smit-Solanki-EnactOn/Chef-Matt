@@ -7,7 +7,7 @@ import { Pagination } from 'swiper/modules'
 const Discountbanner = () => {
     return (
         <section className='section-padding'>
-            <div className="container mx-auto p-10 z-10 bg-white">
+            <div className="container mx-auto p-10  bg-white">
 
                 <Swiper
                     slidesPerView={1}

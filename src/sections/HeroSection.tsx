@@ -6,10 +6,10 @@ import { Pagination, Autoplay, EffectFade } from 'swiper/modules'
 
 const HeroSection = () => {
   const heroImages = [
+    "/images/HeroImage1.png",
     "/images/HeroImage2.png",
-    "/images/HeroImage2.png",
-    "/images/HeroImage2.png",
-    "/images/HeroImage2.png"
+    "/images/HeroImage3.png",
+    "/images/HeroImage4.png"
   ]
 
   return (
@@ -22,6 +22,7 @@ const HeroSection = () => {
           loop={true}
           freeMode={true}
           pagination={{
+            el: ".swiper-pagination",
             clickable: true,
           }}
           effect='fade'
@@ -29,6 +30,7 @@ const HeroSection = () => {
             delay: 2500,
             disableOnInteraction: false
           }}
+          
           modules={[Pagination, Autoplay, EffectFade]}
           style={{
             "--swiper-pagination-color": "#fff",
@@ -49,11 +51,19 @@ const HeroSection = () => {
               </div>
             </SwiperSlide>
           ))}
+          
         </Swiper>
       </div>
 
-      <div className='absolute bottom-8 sm:bottom-16 md:bottom-24 lg:bottom-32 xl:bottom-40 left-1/2 transform -translate-x-1/2 z-1 px-4 sm:px-0'>
-        <Button text='Meet Chef Matt' className="font-semibold border-2 border-white text-white hover:bg-white hover:text-gold text-sm sm:text-base md:text-lg whitespace-nowrap" />
+      <div className='absolute bottom-8 sm:bottom-16 md:bottom-24 lg:bottom-32 xl:bottom-40 left-1/2 transform -translate-x-1/2 z-1 px-4 sm:px-0 flex flex-col items-center gap-10'>
+          <h1 className='text-lg sm:text-xl md:text-2xl lg:text-4xl xl:text-6xl  text-white text-center font-outline sm:font-outline-gold flex flex-col lg:leading-20 xl:leading-24 text-shadow-lg'>
+            Chef Quality
+            <span className='text-gold'>Products + Experiences</span>  
+            To your home
+          </h1>
+        <Button text='Shop Now' className="w-fit md:w-md font-semibold border-2 bg-gold text-white border-transparent hover:bg-white hover:text-gold text-sm sm:text-base md:text-lg whitespace-nowrap" />
+
+        <Button text='Meet Chef Matt' className="wifit md:w-md font-semibold border-2 border-white text-white hover:bg-white hover:text-gold text-sm sm:text-base md:text-lg whitespace-nowrap" />
       </div>
 
     </section>

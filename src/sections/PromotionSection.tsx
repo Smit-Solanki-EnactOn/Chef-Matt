@@ -45,7 +45,7 @@ const PromotionSection = () => {
 
   return (
 
-    <section>
+    <section className="section-padding">
       <div className="container mx-auto">
         {/* Grid Banner */}
         <GridBanner />
